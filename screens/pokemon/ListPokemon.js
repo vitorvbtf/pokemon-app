@@ -1,8 +1,8 @@
 import { Button, Card, Text } from "react-native-paper"
 import { Image, ScrollView, StyleSheet } from "react-native"
-import { View } from "react-native-web"
 import apiPoke from "../../services/apiPoke"
 import { useEffect, useState } from "react"
+import { View } from "react-native"
 
 
 
@@ -12,7 +12,7 @@ const ListPokemon = ({ navigation }) => {
   const [pokemons, setPokemons] = useState([])
 
   useEffect(() => {
-      apiPoke.get('/pokemon'  ).then(resultado => {
+      apiPoke.get('/pokemon').then(resultado => {
       setPokemons(resultado.data.results)
     })
   }, [])
@@ -21,18 +21,15 @@ const ListPokemon = ({ navigation }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
 
-      {pokemons.map((item, index) => (
-        <div key={index}>
-        <Card  style={styles.card} key={item.id} 
-          onPress={()=>navigation.push('Detalhes-Poke', {id: item.id})}  >
-          <Text variant="titleLarge">{item.name}</Text>
+      {pokemons.map(item => (
+        <View>
+        <Card    
+          onPress={()=>navigation.push('Detalhes-Poke', {id: item.name})}  >
         <Card.Cover source={{uri: item.sprites?.other?.dream_world?.front_default}} />
-        <Card.Actions>
-          <Button>Cancel</Button>
-          <Button>Ok</Button>
-        </Card.Actions>
+          <Text variant="titleLarge">{item.name}</Text>
+       
       </Card>
-      </div>
+      </View>
       ))}
 
       <Text>Lista Pokemon</Text>

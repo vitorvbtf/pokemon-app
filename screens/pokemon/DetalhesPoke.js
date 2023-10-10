@@ -1,29 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import apiPoke from '../../services/apiPoke'
-import { ScrollView } from 'react-native'
+import { Image, ScrollView } from 'react-native'
 import { Card, Text } from 'react-native-paper'
 
 const DetalhesPoke = ({route}) => {
+  const id = route.params.id
     const [detalhes, setDetalhes] = useState({})
     useEffect(() => {
-        const id = route.params.id
     
-     apiPoke.get('/pokemon').then(resultado => {
-        setDetalhes(resultado.data.results)
+     apiPoke.get('/pokemon/'+id).then(resultado => {
+        setDetalhes(resultado.data)
       })
   
     }, [])
-
+console.log(id);
   return (
     <>
-    <ScrollView>
-       <Card style={{margin : 5}}>
-                 <Card.Cover source={{uri: detalhes.sprites?.other?.dream_world?.front_default}} />
-                 <Card.Content>
-                 </Card.Content>  
-                 <Text variant="titleLarge">{detalhes.name}</Text>
-             </Card>
-       </ScrollView>
+      <Image source={{uri: detalhes.sprites?.other?.dream_world?.front_default}}
+      style={{width:100, height:100}}/>
+
+      <Text>{detalhes.name}</Text> 
     </>
   )
 }
