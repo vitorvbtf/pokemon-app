@@ -11,10 +11,8 @@ const ListPokemon = ({ navigation }) => {
 
   const [pokemons, setPokemons] = useState([])
 
-
-
   useEffect(() => {
-      apiPoke.get('/pokemon').then(resultado => {
+      apiPoke.get('/pokemon'  ).then(resultado => {
       setPokemons(resultado.data.results)
     })
   }, [])
@@ -25,7 +23,8 @@ const ListPokemon = ({ navigation }) => {
 
       {pokemons.map((item, index) => (
         <div key={index}>
-        <Card  style={styles.card} >
+        <Card  style={styles.card} key={item.id} 
+          onPress={()=>navigation.push('Detalhes-Poke', {id: item.id})}  >
           <Text variant="titleLarge">{item.name}</Text>
         <Card.Cover source={{uri: item.sprites?.other?.dream_world?.front_default}} />
         <Card.Actions>
