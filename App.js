@@ -4,9 +4,7 @@ import { Avatar, PaperProvider } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import StackPokemon from './screens/pokemon/StackPokemon';
 import StackFavorites from './screens/favorite/StackFavorites';
-import StackGames from './screens/games/StackGames'
-import InicioStack from './screens/tela-inicial/InicioStack';
-import ListPokemon from './screens/pokemon/ListPokemon';
+import StackGames from './screens/games/StackGames';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -15,8 +13,9 @@ export default function App() {
     <PaperProvider>
       <NavigationContainer>
         <Tab.Navigator
-          initialRouteName="Inicio"
+          initialRouteName="pokemon"
           shifting={true}>
+          {/* 
           <Tab.Screen
             name="inicio"
             component={InicioStack}
@@ -26,7 +25,8 @@ export default function App() {
                 <MaterialCommunityIcons name="heart-outline" size={26} />
               ),
             }}
-          />
+          /> 
+          */}
           <Tab.Screen
             name="favorites"
             component={StackFavorites}
