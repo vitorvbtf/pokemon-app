@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import apiPoke from '../../services/apiPoke'
 import { Image, ScrollView } from 'react-native'
-import { Card, Text } from 'react-native-paper'
+import { Button, Card, Text } from 'react-native-paper'
 
-const DetalhesPoke = ({route}) => {
+const DetalhesPoke = ({navigation,route}) => {
   const id = route.params.id
     const [detalhes, setDetalhes] = useState({})
     useEffect(() => {
@@ -16,10 +16,18 @@ const DetalhesPoke = ({route}) => {
 console.log(id);
   return (
     <>
-      <Image source={{uri: detalhes.sprites?.other?.dream_world?.front_default}}
-      style={{width:100, height:100}}/>
+    
 
-      <Text>{detalhes.name}</Text> 
+      <Card style={{width:'auto', margin:15}}>
+      <Button icon="cards-heart-outline"  onPress={() => console.log('Pressed')}>
+
+  </Button>
+    <Card.Cover source={{uri: detalhes.sprites?.other?.dream_world?.front_default}}  />
+    <Card.Actions>
+   
+    </Card.Actions>
+  </Card> 
+  <Text style={{color:'black', textAlign:'center',fontSize:25}}>{detalhes.name}</Text>
     </>
   )
 }
