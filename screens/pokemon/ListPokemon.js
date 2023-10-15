@@ -1,8 +1,10 @@
 import { Button, Card, Text } from "react-native-paper"
-import { Image, ScrollView, StyleSheet } from "react-native"
+import { Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native"
 import apiPoke from "../../services/apiPoke"
 import { useEffect, useState } from "react"
 import { View } from "react-native"
+import gamesPageStyles from "../../styles/gamesPageStyles";
+import CardPoke from "../../components/CardPoke"
 
 
 
@@ -19,23 +21,15 @@ const ListPokemon = ({ navigation }) => {
 
  
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-
-      {pokemons.map(item => (
-        <View>
-        <Card    
-          onPress={()=>navigation.push('Detalhes-Poke', {id: item.name})}  >
-        <Card.Cover source={{uri: item.sprites?.other?.dream_world?.front_default}} />
-          <Text variant="titleLarge">{item.name}</Text>
-       
-      </Card>
+      <View style={gamesPageStyles.container}>
+        {pokemons.map(item => (
+          <TouchableOpacity key={item.id} onPress={() => navigation.push(item.page)}>
+            <CardPoke key={item.id} style={gamesPageStyles.card} infos={item}></CardPoke>
+          </TouchableOpacity>
+        ))}
       </View>
-      ))}
 
-      <Text>Lista Pokemon</Text>
-
-
-    </ScrollView>
+      
   )
 }
 
