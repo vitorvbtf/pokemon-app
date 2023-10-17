@@ -7,14 +7,22 @@ const cardPokeStyles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    margin: 10
+    margin: 10,
   },
   image: {
     width: 100,
-    height: 100
+    height: 100,
+    backgroundColor: 'none'
   },
+
   title: {
-    fontWeight: "bold"
+    fontWeight: "bold",
+  },
+
+  text: {
+    fontWeight: "bold",
+    textAlign: 'center',
+    fontSize: 15,
   }
 })
 
