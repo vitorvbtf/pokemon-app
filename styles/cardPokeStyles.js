@@ -23,7 +23,8 @@ const cardPokeStyles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: 'center',
     fontSize: 15,
-  }
+  },
+
 })
 
 export default cardPokeStyles;
