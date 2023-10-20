@@ -44,15 +44,3 @@ const ListPokemon = ({ navigation }) => {
 
 
 export default ListPokemon
-
-export const styles = StyleSheet.create({
-  container: {
-    flex: 3,
-    backgroundColor: '#131016',
-    padding: 45,
-  },
-  card:{
-   
-  }
-})
-
