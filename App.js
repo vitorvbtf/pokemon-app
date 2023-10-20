@@ -6,6 +6,8 @@ import StackPokemon from './screens/pokemon/StackPokemon';
 import StackFavorites from './screens/favorite/StackFavorites';
 import StackGames from './screens/games/StackGames';
 
+
+
 const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
@@ -57,6 +59,8 @@ export default function App() {
               ),
             }}
           />
+           
+        
         </Tab.Navigator>
       </NavigationContainer>
     </PaperProvider>
