@@ -65,7 +65,7 @@ const ListPokemon = ({ navigation }) => {
     <ScrollView showsVerticalScrollIndicator={false} onScroll={handleScroll}>
       <View style={gamesPageStyles.container}>
         {pokemons.map((item) => (
-          <TouchableOpacity key={item.id} onPress={() => navigation.push('Detalhes-Poke', { id: item.name })}>
+          <TouchableOpacity key={item.id} onPress={() => navigation.push('Detalhes-Poke', { id: item.name ,type: item.types[0].type.name})}>
             <View key={item.id}>
               <Card style={[cardPokeStyles.card, getBackgroundColor(item)]}>
                 {item.sprites && (

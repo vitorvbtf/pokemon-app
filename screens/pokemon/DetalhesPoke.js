@@ -1,46 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import apiPoke from '../../services/apiPoke'
-import { Image, ScrollView } from 'react-native'
-import { Button, Card, Text } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { addFavorite } from '../../util/storage'
+import { Image, ScrollView, View } from 'react-native'
+import { Button, Card, IconButton, Text } from 'react-native-paper'
+import cardPokeStyles from '../../styles/cardPokeStyles'
+import cardDetailsPokeStyles from '../../styles/cardDetailsPokeStyles'
+import COLORS from '../../util/colorsTypePoke'
 
-const DetalhesPoke = ({ route }) => {
-  const navigation = useNavigation();
-  const id = route.params.id;
-  const [detalhes, setDetalhes] = useState({});
+const DetalhesPoke = ({ navigation, route }) => {
+
+  const [detalhes, setDetalhes] = useState({})
+  const type = route.params.type
   useEffect(() => {
-
+    const id = route.params.id
     apiPoke.get('/pokemon/' + id).then(resultado => {
       setDetalhes(resultado.data)
     })
-
   }, [])
 
-  const addToFavorites = () => {
-    // Adicione o Pokémon atual aos favoritos
-    addFavorite({
-      id: detalhes.id, // Supondo que detlhes.id seja o ID do Pokémon
-      name: detalhes.name, // Nome do Pokémon
-      // Outros detalhes do Pokémon que você deseja adicionar
-    });
-  };
 
 
-  console.log(id);
   return (
     <>
-      <Card style={{ width: 'auto', margin: 15 }}>
-        <Button icon="cards-heart-outline" onPress={addToFavorites}>
 
 
-        </Button>
-        <Card.Cover source={{ uri: detalhes.sprites?.other?.dream_world?.front_default }} />
-        <Card.Actions>
 
-        </Card.Actions>
-      </Card>
-      <Text style={{ color: 'black', textAlign: 'center', fontSize: 25 }}>{detalhes.name}</Text>
+      <View style={{backgroundColor: COLORS[type]}} >
+        <View style={{ justifyContent: 'space-between', display: 'flex', alignItems: 'flex-end' }}>
+
+          <IconButton style={{}} icon="cards-heart-outline" onPress={() => console.log('Pressed')} />
+
+
+        </View>
+        <View style={cardDetailsPokeStyles.card}>
+          <Image source={{ uri: detalhes.sprites?.other?.home?.front_default }} style={cardDetailsPokeStyles.image} />
+        </View>
+        <Text style={{ color: 'black', textAlign: 'center', fontSize: 25, padding: 10 }}>{detalhes.name}</Text>
+      </View>
+
+
     </>
   )
 }
