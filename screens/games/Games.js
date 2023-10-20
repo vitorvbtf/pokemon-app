@@ -1,7 +1,6 @@
 import CardPoke from "../../components/CardPoke"
 import { TouchableOpacity, View } from "react-native";
-import gamesPageStyles from "../../styles/gamesPageStyles";
-import { Button } from "react-native-paper";
+import listCardPokeStyles from "../../styles/listCardPokeStyles";
 
 const Games = ({ navigation }) => {
 
@@ -38,10 +37,10 @@ const Games = ({ navigation }) => {
 
   return (
     <>
-      <View style={gamesPageStyles.container}>
+      <View style={listCardPokeStyles.container}>
         {games.map(item => (
           <TouchableOpacity key={item.id} onPress={() => navigation.push(item.page)}>
-            <CardPoke key={item.id} style={gamesPageStyles.card} infos={item}></CardPoke>
+            <CardPoke key={item.id} infos={item}></CardPoke>
           </TouchableOpacity>
         ))}
       </View>
