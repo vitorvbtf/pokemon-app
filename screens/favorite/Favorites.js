@@ -10,6 +10,7 @@ const Favorites = ({ navigation }) => {
 
   useEffect(() => {
     getFavorites().then((fav) => setFavorites(fav));
+    console.log(favorites)
   }, []);
 
   return (
