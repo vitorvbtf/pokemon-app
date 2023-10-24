@@ -31,7 +31,7 @@ const ListPokemon = ({ navigation }) => {
       <ScrollView>
         <View style={listCardPokeStyles.container}>
           {pokemons.map(item => (
-            <TouchableOpacity key={item.id} onPress={() => navigation.push('details-pokemon', { id: item.id })}>
+            <TouchableOpacity key={item.id} onPress={() => navigation.push('details-pokemon', { id: item.id, type: item.types[0].type.name })}>
               <CardPoke key={item.id} infos={item}></CardPoke>
             </TouchableOpacity>
           ))}
@@ -41,6 +41,5 @@ const ListPokemon = ({ navigation }) => {
     </>
   )
  }
-
 
 export default ListPokemon

@@ -6,6 +6,7 @@ const gamesPageStyles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
   },
+
   levelButton: {
     flex: 1,
     alignItems: 'center',
