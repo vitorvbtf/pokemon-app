@@ -12,9 +12,7 @@ const cardPokeStyles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    backgroundColor: 'none'
   },
-
   title: {
     fontWeight: "bold",
     color: 'black',
