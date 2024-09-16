@@ -1,0 +1,124 @@
+import React, { useEffect, useState, useLayoutEffect, useRef } from "react";
+import { View, TextInput, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import { Card, Text } from "react-native-paper";
+import apiPoke from "../../services/apiPoke";
+import COLORS from "../../util/colorsTypePoke";
+import cardPokeStyles from "../../styles/cardPokeStyles";
+
+const ListPokemon = ({ navigation }) => {
+  const [pokemons, setPokemons] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [page, setPage] = useState(1);
+  const scrollViewRef = useRef();
+  const windowWidth = Dimensions.get("window").width;
+
+  const loadMorePokemon = async () => {
+    const response = await apiPoke.get(`/pokemon?offset=${page * 20}`);
+    const newPokemonList = response.data.results;
+
+    if (newPokemonList.length > 0) {
+      const detailedPokemonList = await Promise.all(
+        newPokemonList.map(async (pokemon) => {
+          const response = await apiPoke.get(pokemon.url);
+          return response.data;
+        })
+      );
+
+      setPokemons([...pokemons, ...detailedPokemonList]);
+      setPage(page + 1);
+    }
+  };
+
+  useEffect(() => {
+    apiPoke.get('/pokemon').then(async (resultado) => {
+      const pokemonList = resultado.data.results;
+      const detailedPokemonList = await Promise.all(
+        pokemonList.map(async (pokemon) => {
+          const response = await apiPoke.get(pokemon.url);
+          return response.data;
+        })
+      );
+      setPokemons(detailedPokemonList);
+    });
+  }, []);
+
+  useEffect(() => {
+    searchPokemon(searchText);
+  }, [searchText]);
+
+  const searchPokemon = (text) => {
+    const filteredPokemon = pokemons.filter((pokemon) =>
+      pokemon.name.includes(text.toLowerCase())
+    );
+    setSearchResults(filteredPokemon);
+  };
+
+  const getBackgroundColor = (pokemon) => {
+    if (pokemon.types && pokemon.types.length > 0) {
+      const primaryType = pokemon.types[0].type.name;
+      return { backgroundColor: COLORS[primaryType] || '#000000' };
+    }
+    return { backgroundColor: '#000000' };
+  };
+
+  useLayoutEffect(() => {
+    const numColumns = Math.floor(windowWidth / 180); // Adjust the 180 value as needed
+    const columnWidth = windowWidth / numColumns;
+    scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: false });
+    scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+  }, [windowWidth]);
+
+  return (
+    <View>
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Pesquisar Pokémon"
+        onChangeText={(text) => setSearchText(text)}
+        value={searchText}
+      />
+      <ScrollView
+        ref={scrollViewRef}
+        onScroll={({ nativeEvent }) => {
+          const isEndOfList = nativeEvent.contentOffset.y >= nativeEvent.contentSize.height - nativeEvent.layoutMeasurement.height;
+          if (isEndOfList) {
+            loadMorePokemon();
+          }
+        }}
+      >
+        <View style={styles.gridContainer}>
+          {(searchResults.length > 0 ? searchResults : pokemons).map((item) => (
+            <TouchableOpacity key={item.id} onPress={() => navigation.push('Detalhes-Poke', { id: item.name })}>
+              <View style={[styles.cardContainer, { width: (windowWidth / 2) - 20 }]}>
+                <Card style={[cardPokeStyles.card, getBackgroundColor(item)]}>
+                  {item.sprites && (
+                    <Card.Cover source={{ uri: item.sprites.other.home.front_default }} style={cardPokeStyles.image} />
+                  )}
+                  <Text variant="titleLarge">{item.name}</Text>
+                </Card>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
+
+const styles = {
+  searchInput: {
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  gridContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  cardContainer: {
+    margin: 10,
+  },
+};
+
+export default ListPokemon;
